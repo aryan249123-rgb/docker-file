@@ -1,25 +1,19 @@
-def palandrome(a):
-    x=0
-    y=len(a)-1
+import java.util.Scanner;
 
-    flag=True
-    while(x<=y):
-        if(a[x]==a[y]):
-            flag=True
-        else:
-            flag=False
-            break
-        x=x+1
-        y=y-1
-    if(flag==True):
-        print("array is palandrome")
-    else:
-        print("not a palandroem")
+public class Palindrome {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        String rev = "";
 
-palandrome([1,2,2,1])
+        for (int i = str.length() - 1; i >= 0; i--) {
+            rev = rev + str.charAt(i);
+        }
 
-
-
-
-
-
+        if (str.equals(rev)) {
+            System.out.println("Palindrome");
+        } else {
+            System.out.println("Not Palindrome");
+        }
+    }
+}
