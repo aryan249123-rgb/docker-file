@@ -1,39 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_CREDS = credentials('dockerhub-creds')
-        DOCKER_IMAGE = "${DOCKER_CREDS_USR}/weather-app:latest"
-    }
-
     stages {
-
-        stage('Install Node Dependencies') {
+        stage('Checkout Code') {
             steps {
-                bat 'npm install'
+                git 'https://github.com/aryan249123-rgb/https://github.com/aryan249123-rgb/docker-file.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE% ."
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Run Tests') {
             steps {
-                bat """
-                docker login -u %DOCKER_CREDS_USR% -p %DOCKER_CREDS_PSW%
-                docker push %DOCKER_IMAGE%
-                """
+                sh 'pytest'
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Run Application') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    bat 'kubectl apply -f deployment.yaml'
-                }
+                sh 'python app.py'
             }
         }
     }
