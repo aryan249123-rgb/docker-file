@@ -1,15 +1,7 @@
-FROM node:20
+FROM python:3.10
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY app.py .
 
-RUN npm install
-
-COPY . .
-
-RUN npm run build
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD ["python", "app.py"]
