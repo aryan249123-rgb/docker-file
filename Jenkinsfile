@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
+        stage('Compile') {
             steps {
-                bat 'python -m pip install -r requirements.txt'
+                bat 'javac Palindrome.java'
             }
         }
 
-        stage('Run Application') {
+        stage('Run') {
             steps {
-                bat 'python app.py'
+                bat 'java Palindrome'
             }
         }
     }
